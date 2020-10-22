@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.5.0'
+}
+
+group 'org.ukmms'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/central' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile group: 'com.ibeetl', name: 'beetl', version: '3.2.2.RELEASE'
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2020.2.3'
+    plugins = ['java', 'DatabaseTools']
+}
+patchPluginXml {
+    changeNotes """
+      0.01.<br>
+      <em>init plugin</em>"""
+}
