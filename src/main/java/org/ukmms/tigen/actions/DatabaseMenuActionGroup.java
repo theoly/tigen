@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DatabaseMenuActionGroup extends ActionGroup {
 
-    private Boolean isDataTable;
+    private Boolean isDataTable = false;
 
     private DataUtils dataUtils = DataUtils.getInstance();
 
@@ -43,6 +43,7 @@ public class DatabaseMenuActionGroup extends ActionGroup {
             isDataTable = false;
             return AnAction.EMPTY_ARRAY;
         }else{
+            isDataTable = true;
             dataUtils.setDbTable(selectDbTable);
         }
 
@@ -63,6 +64,7 @@ public class DatabaseMenuActionGroup extends ActionGroup {
             isDataTable = false;
             return AnAction.EMPTY_ARRAY;
         }else{
+            isDataTable = true;
             dataUtils.setDbTables(dbTableList);
         }
 
