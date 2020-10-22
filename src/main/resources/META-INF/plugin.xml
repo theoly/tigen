@@ -26,7 +26,7 @@
     <actions>
         <!-- Add your actions here -->
         <!-- Add your actions here -->
-        <group id="org.ukmms.tigen.actions" class="org.ukmms.tigen.actions.DatabaseMenuActionGroup" text="EasyCode" popup="true">
+        <group id="org.ukmms.tigen.actions" class="org.ukmms.tigen.actions.DatabaseMenuActionGroup" text="Tigen" popup="true">
             <!--生成代码菜单-->
             <add-to-group group-id="DatabaseViewPopupMenu" anchor="first"/>
         </group>
