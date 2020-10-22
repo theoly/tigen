@@ -4,13 +4,20 @@
     <vendor email="theo@ukmms.org" url="http://www.ukmms.org">NULLCOM</vendor>
 
     <description><![CDATA[
-    Tigen code  generator engine util.<br>
+    Tigen idea generator tool plugin.<br>
     <em>0.01 init</em>
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <!--必须为企业版-->
+    <depends>com.intellij.modules.lang</depends>
+    <!--必须依赖Database Tool插件-->
+    <depends>com.intellij.database</depends>
+    <!--java支持扩展-->
+    <depends>com.intellij.modules.java</depends>
+
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -18,5 +25,10 @@
 
     <actions>
         <!-- Add your actions here -->
+        <!-- Add your actions here -->
+        <group id="org.ukmms.tigen.actions" class="org.ukmms.tigen.actions.DatabaseMenuActionGroup" text="EasyCode" popup="true">
+            <!--生成代码菜单-->
+            <add-to-group group-id="DatabaseViewPopupMenu" anchor="first"/>
+        </group>
     </actions>
 </idea-plugin>

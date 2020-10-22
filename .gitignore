@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Gradle template
+.gradle
+
+# User-specific stuff
+.idea/
+
+gradle/
+gradlew
+gradlew.bat

@@ -30,8 +30,11 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '2020.2.3'
+    type 'IU'
     plugins = ['java', 'DatabaseTools']
+    pluginName = "Tigen"
 }
+
 patchPluginXml {
     changeNotes """
       0.01.<br>
