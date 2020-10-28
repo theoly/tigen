@@ -10,12 +10,13 @@ import org.ukmms.tigen.config.Settings;
 import org.ukmms.tigen.util.ProjectUtils;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class SettingsDialog  implements Configurable, Configurable.Composite {
     private JPanel contentPane;
     private JButton buttonReset;
     private JTextField tfAuthor;
-    private JTextField tfProfile;
+    private JComboBox cbProfile;
 
     private Settings settings;
 
@@ -27,6 +28,12 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
         settings = Settings.getInstance();
 
         tfAuthor.setText(settings.getAuthor());
+
+        settings.getProfileList().forEach(p -> {
+            cbProfile.addItem(p);
+        });
+
+        cbProfile.setSelectedItem(settings.getProfile());
 
         buttonReset.addActionListener(e ->{
             settings = new Settings();
@@ -41,7 +48,9 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
 
     @Override
     public Configurable @NotNull [] getConfigurables() {
-        return new Configurable[0];
+        Configurable[] result = new Configurable[1];
+        result[0] = new templatesPanel();
+        return result;
     }
 
     @Override
@@ -52,7 +61,11 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
     @Override
     public boolean isModified() {
         boolean modified = false;
+        Object selectedItem = cbProfile.getSelectedItem();
         if(!settings.getAuthor().equals(tfAuthor.getText())){
+            modified = true;
+        }
+        if(!settings.getProfile().equals(cbProfile.getSelectedItem().toString())) {
             modified = true;
         }
         return modified;
@@ -61,5 +74,13 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
     @Override
     public void apply() throws ConfigurationException {
         settings.setAuthor(tfAuthor.getText());
+        if(!settings.getProfile().equals(cbProfile.getSelectedItem().toString())){
+            settings.setProfile(cbProfile.getSelectedItem().toString());
+            try {
+                settings.setTemplates(Settings.loadProfile(System.getProperty("user.home") + "/.tigen/profile/" + settings.getProfile()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

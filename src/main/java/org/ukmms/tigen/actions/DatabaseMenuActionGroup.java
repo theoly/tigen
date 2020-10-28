@@ -89,13 +89,7 @@ public class DatabaseMenuActionGroup extends ActionGroup {
             actionManager.registerAction(configActionId, configAction);
         }
 
-        // 表配置菜单
-        AnAction previewAction = actionManager.getAction(previewActionId);
-        if (previewAction == null) {
-            previewAction = new ConfigMenuAction("Preview");
-            actionManager.registerAction(previewActionId, previewAction);
-        }
         // 返回所有菜单
-        return new AnAction[]{mainAction, configAction, previewAction};
+        return new AnAction[]{mainAction, configAction};
     }
 }

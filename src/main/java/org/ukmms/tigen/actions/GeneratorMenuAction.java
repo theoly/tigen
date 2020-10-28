@@ -2,11 +2,15 @@ package org.ukmms.tigen.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsActions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.diagnostic.Logger;
+import org.ukmms.tigen.config.Settings;
 import org.ukmms.tigen.util.DataUtils;
+
+import java.io.IOException;
 
 /**
  * @author theoly
@@ -21,7 +25,13 @@ public class GeneratorMenuAction extends AnAction {
     }
 
     @Override
-    public void actionPerformed(@NotNull AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
+        Project project = event.getProject();
+        if (project == null) {
+            return;
+        }
+
+        Settings settings = Settings.getInstance();
         logger.info(dataUtils.getDbTable().getName());
     }
 }
