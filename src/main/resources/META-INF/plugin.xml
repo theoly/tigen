@@ -15,17 +15,16 @@
     <depends>com.intellij.modules.lang</depends>
     <!--必须依赖Database Tool插件-->
     <depends>com.intellij.database</depends>
-    <!--java支持扩展-->
-    <depends>com.intellij.modules.java</depends>
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <!--设置-->
+        <applicationService serviceImplementation="org.ukmms.tigen.config.Settings"/>
+        <!--设置UI-->
+        <applicationConfigurable dynamic="true" instance="org.ukmms.tigen.ui.SettingsDialog"/>
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
-        <!-- Add your actions here -->
         <group id="org.ukmms.tigen.actions" class="org.ukmms.tigen.actions.DatabaseMenuActionGroup" text="Tigen" popup="true">
             <!--生成代码菜单-->
             <add-to-group group-id="DatabaseViewPopupMenu" anchor="first"/>

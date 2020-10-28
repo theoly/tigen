@@ -74,6 +74,7 @@ public class DatabaseMenuActionGroup extends ActionGroup {
     public AnAction[] getSubMenus(){
         String generatorActionId = "org.ukmms.tigen.action.generate";
         String configActionId = "org.ukmms.tigen.action.config";
+        String previewActionId = "org.ukmms.tigen.action.preview";
         ActionManager actionManager = ActionManager.getInstance();
         // 代码生成菜单
         AnAction mainAction = actionManager.getAction(generatorActionId);
@@ -87,7 +88,14 @@ public class DatabaseMenuActionGroup extends ActionGroup {
             configAction = new ConfigMenuAction("Config");
             actionManager.registerAction(configActionId, configAction);
         }
+
+        // 表配置菜单
+        AnAction previewAction = actionManager.getAction(previewActionId);
+        if (previewAction == null) {
+            previewAction = new ConfigMenuAction("Preview");
+            actionManager.registerAction(previewActionId, previewAction);
+        }
         // 返回所有菜单
-        return new AnAction[]{mainAction, configAction};
+        return new AnAction[]{mainAction, configAction, previewAction};
     }
 }

@@ -1,17 +1,41 @@
 package org.ukmms.tigen.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.intellij.database.psi.DbTable;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author theoly
  * @date 2020/10/22
  */
 public class DataTable {
+    /**
+     * 原表对象
+     */
+    @JsonIgnore
+    private DbTable dbTable;
+
+    /**
+     * 表名
+     */
     private String name;
 
+    /**
+     * 注释
+     */
     private String comment;
 
+    /**
+     * 字段集合
+     */
     private List<DataColumn> columns;
+
+    /**
+     * 扩展数据
+     */
+    private Map<String, Object> ext;
 
     public String getName() {
         return name;
