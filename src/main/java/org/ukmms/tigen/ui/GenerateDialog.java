@@ -1,5 +1,6 @@
 package org.ukmms.tigen.ui;
 
+import com.intellij.database.psi.DbTable;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -19,9 +20,11 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.testFramework.LightVirtualFile;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
-import org.beetl.core.Template;
 import org.beetl.core.resource.StringTemplateResourceLoader;
 import org.ukmms.tigen.config.Settings;
+import org.ukmms.tigen.domain.DataTable;
+import org.ukmms.tigen.domain.Template;
+import org.ukmms.tigen.service.TigenService;
 import org.ukmms.tigen.util.DataUtils;
 import org.ukmms.tigen.util.ModuleUtils;
 
@@ -48,9 +51,12 @@ public class GenerateDialog extends JDialog {
 
     private DataUtils dataUtils;
 
+    private TigenService tigenService;
+
     public GenerateDialog(Project project) {
         this.settings = Settings.getInstance();
         this.dataUtils = DataUtils.getInstance();
+        this.tigenService = TigenService.getInstance(project);
 
         setContentPane(contentPane);
         setModal(true);
@@ -105,9 +111,9 @@ public class GenerateDialog extends JDialog {
             JTemplateField templateField = new JTemplateField(t.getName());
             templateField.getButton().addActionListener(e ->{
                 try {
-                    preview(project, t.getName(), t.getEngine(), t.getCode());
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    preview(project, t);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             });
             templateFieldList.add(templateField);
@@ -134,29 +140,19 @@ public class GenerateDialog extends JDialog {
         this.setVisible(true);
     }
 
-    public void preview(Project project, String template, String engine, String code) throws IOException {
+    public void preview(Project project, Template template) throws Exception {
         String pkg = tfPackage.getText();
         String preName = tfPrefix.getText();
 
-        //初始化代码
-        if(engine.equals("beetl")) {
-            StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
-            Configuration cfg = Configuration.defaultConfiguration();
-            GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-            Template t = gt.getTemplate(code);
-            Map<String, String> map = new HashMap<>();
-            map.put("package", pkg);
-            map.put("preName", preName);
-            t.binding(map);
-            code = t.render();
-        }
+        DbTable dbTable = dataUtils.getDbTable();
+        String code = tigenService.generate(template, new DataTable(dbTable));
 
         // 创建编辑框
         EditorFactory editorFactory = EditorFactory.getInstance();
         PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
-        String fileName = template;
+        String fileName = template.getName();
         FileType velocityFileType = FileTypeManager.getInstance().getFileTypeByExtension("vm");
-        PsiFile psiFile = psiFileFactory.createFileFromText(template, velocityFileType, code, 0, true);
+        PsiFile psiFile = psiFileFactory.createFileFromText(fileName, velocityFileType, code, 0, true);
         // 标识为模板，让velocity跳过语法校验
         psiFile.getViewProvider().putUserData(FileTemplateManager.DEFAULT_TEMPLATE_PROPERTIES, FileTemplateManager.getInstance(project).getDefaultProperties());
         Document document = PsiDocumentManager.getInstance(project).getDocument(psiFile);

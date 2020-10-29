@@ -1,0 +1,29 @@
+package org.ukmms.tigen.service.impl;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import org.ukmms.tigen.service.GenerateService;
+
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Map;
+
+/**
+ * @author theoly
+ * @date 2020/10/29
+ */
+public class FreemarkerGenerateServiceImpl implements GenerateService {
+
+    @Override
+    public String generate(String template, Map<String, Object> param) throws Exception {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_29);
+        cfg.setDefaultEncoding("UTF-8");
+        Template freemarkerTemplate = Template.getPlainTextTemplate("freemarker", template, cfg);
+        Writer out = new StringWriter();
+        freemarkerTemplate.process(param, out);
+        out.flush();
+        String s = out.toString();
+        out.close();
+        return s;
+    }
+}

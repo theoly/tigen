@@ -32,6 +32,12 @@ public class DataTable {
      */
     private List<DataColumn> columns;
 
+    public DataTable(DbTable dbTable) {
+        this.dbTable = dbTable;
+        this.name = dbTable.getName();
+        this.comment = dbTable.getComment();
+    }
+
     /**
      * 扩展数据
      */

@@ -22,6 +22,9 @@
         <applicationService serviceImplementation="org.ukmms.tigen.config.Settings"/>
         <!--设置UI-->
         <applicationConfigurable dynamic="true" instance="org.ukmms.tigen.ui.SettingsDialog"/>
+
+        <projectService serviceInterface="org.ukmms.tigen.service.TigenService"
+                        serviceImplementation="org.ukmms.tigen.service.impl.TigenServiceImpl" />
     </extensions>
 
     <actions>
