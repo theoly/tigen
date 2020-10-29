@@ -25,7 +25,7 @@ repositories {
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 
-    implementation group: 'com.ibeetl', name: 'beetl', version: '3.2.2.RELEASE'
+    implementation group: 'com.ibeetl', name: 'beetl', version: '3.2.3.RELEASE'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

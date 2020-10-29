@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.NlsActions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.ukmms.tigen.ui.GenerateDialog;
 import org.ukmms.tigen.util.DataUtils;
 
 /**
@@ -22,6 +23,6 @@ public class ConfigMenuAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        logger.info(dataUtils.getDbTable().getName());
+        new GenerateDialog(e.getProject()).open();
     }
 }

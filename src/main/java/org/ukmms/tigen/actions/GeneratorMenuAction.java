@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.diagnostic.Logger;
 import org.ukmms.tigen.config.Settings;
+import org.ukmms.tigen.ui.GenerateDialog;
 import org.ukmms.tigen.util.DataUtils;
 
 import java.io.IOException;
@@ -31,7 +32,6 @@ public class GeneratorMenuAction extends AnAction {
             return;
         }
 
-        Settings settings = Settings.getInstance();
-        logger.info(dataUtils.getDbTable().getName());
+        new GenerateDialog(event.getProject()).open();
     }
 }
