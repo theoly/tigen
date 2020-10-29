@@ -1,5 +1,6 @@
 package org.ukmms.tigen.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.intellij.ide.fileTemplates.impl.UrlUtil;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -9,6 +10,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.util.ExceptionUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.ukmms.tigen.domain.Template;
@@ -43,6 +45,7 @@ public class Settings implements PersistentStateComponent<Settings> {
     /**
      * template list
      */
+   @Transient
     private List<Template> templates;
 
     public Settings() {
@@ -230,6 +233,7 @@ public class Settings implements PersistentStateComponent<Settings> {
     public void loadState(@NotNull Settings state) {
         // load from state
         if (state.author != null) {
+            state.setTemplates(this.templates);
             XmlSerializerUtil.copyBean(state, this);
         }
     }

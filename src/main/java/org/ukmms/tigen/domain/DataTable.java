@@ -66,4 +66,12 @@ public class DataTable {
     public void setColumns(List<DataColumn> columns) {
         this.columns = columns;
     }
+
+    @Override
+    public String toString() {
+        return "DataTable{" +
+                "name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

@@ -55,7 +55,7 @@ public class TigenServiceImpl implements TigenService {
         GenerateService generateService = generateServiceMap.get(template.getEngine());
         Map<String, Object> param = new HashMap<>();
         // table info to param map
-        param.put("dataTable", param);
+        param.put("dataTable", dataTable);
         param.put("package", "org.ukmms.tigen");
         String renderCode = null;
         try {

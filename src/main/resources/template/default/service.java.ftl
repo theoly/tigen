@@ -1,4 +1,4 @@
-package;
+package ${package};
 
-interface {
+interface ${dataTable}{
 }
