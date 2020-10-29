@@ -32,9 +32,9 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.2.3'
+    version '2020.2'
     type 'IU'
-    plugins = ['java', 'DatabaseTools']
+    plugins = ['DatabaseTools']
     pluginName = "Tigen"
 }
 

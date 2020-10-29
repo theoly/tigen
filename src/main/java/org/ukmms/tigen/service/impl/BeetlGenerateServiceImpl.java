@@ -16,6 +16,9 @@ import java.util.Map;
 public class BeetlGenerateServiceImpl implements GenerateService {
     @Override
     public String generate(String template, Map<String, Object> param) throws IOException {
+
+        Thread.currentThread().setContextClassLoader(GroupTemplate.class.getClassLoader());
+
         //初始化代码
         StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
         Configuration cfg = Configuration.defaultConfiguration();

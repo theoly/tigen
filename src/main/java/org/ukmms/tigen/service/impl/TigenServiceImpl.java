@@ -5,6 +5,7 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import kotlin.reflect.jvm.internal.impl.name.NameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.beetl.core.GroupTemplate;
 import org.ukmms.tigen.domain.DataTable;
 import org.ukmms.tigen.domain.Template;
 import org.ukmms.tigen.service.GenerateService;
@@ -37,6 +38,7 @@ public class TigenServiceImpl implements TigenService {
     private DataUtils dataUtils;
 
     public TigenServiceImpl(Project project){
+
         this.project = project;
         this.moduleManager = ModuleManager.getInstance(project);
         this.dataUtils = DataUtils.getInstance();
