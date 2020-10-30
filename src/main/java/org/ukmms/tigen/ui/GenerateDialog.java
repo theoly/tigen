@@ -178,7 +178,7 @@ public class GenerateDialog extends JDialog {
         ((EditorEx) editor).setHighlighter(EditorHighlighterFactory.getInstance().createEditorHighlighter(project, new LightVirtualFile(fileName)));
         // 构建dialog
         DialogBuilder dialogBuilder = new DialogBuilder(project);
-        dialogBuilder.setTitle("preview - " + template);
+        dialogBuilder.setTitle("preview - " + template.getName());
         JComponent component = editor.getComponent();
         component.setPreferredSize(new Dimension(800, 600));
         dialogBuilder.setCenterPanel(component);

@@ -15,8 +15,8 @@ group 'org.ukmms'
 version '1.0-SNAPSHOT'
 
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/central' }
