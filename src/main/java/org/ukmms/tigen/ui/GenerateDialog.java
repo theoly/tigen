@@ -18,12 +18,9 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.testFramework.LightVirtualFile;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.resource.StringTemplateResourceLoader;
 import org.ukmms.tigen.config.Settings;
 import org.ukmms.tigen.domain.DataTable;
-import org.ukmms.tigen.domain.Template;
+import org.ukmms.tigen.domain.TigenTemplate;
 import org.ukmms.tigen.service.TigenService;
 import org.ukmms.tigen.util.DataUtils;
 import org.ukmms.tigen.util.ModuleUtils;
@@ -31,8 +28,8 @@ import org.ukmms.tigen.util.ModuleUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GenerateDialog extends JDialog {
@@ -106,8 +103,8 @@ public class GenerateDialog extends JDialog {
 
         // templates
         panelTempl.removeAll();
-        panelTempl.setLayout(new GridLayout(this.settings.getTemplates().size(),1));
-        settings.getTemplates().forEach(t -> {
+        panelTempl.setLayout(new GridLayout(this.settings.getProfile().getTemplates().size(),1));
+        settings.getProfile().getTemplates().forEach(t -> {
             JTemplateField templateField = new JTemplateField(t.getName());
             templateField.getButton().addActionListener(e ->{
                 try {
@@ -140,17 +137,17 @@ public class GenerateDialog extends JDialog {
         this.setVisible(true);
     }
 
-    public void preview(Project project, Template template) throws Exception {
+    public void preview(Project project, TigenTemplate tigenTemplate) throws Exception {
         String pkg = tfPackage.getText();
         String preName = tfPrefix.getText();
 
         DbTable dbTable = dataUtils.getDbTable();
-        String code = tigenService.generate(template, new DataTable(dbTable));
+        String code = tigenService.generate(tigenTemplate, new DataTable(dbTable));
 
         // 创建编辑框
         EditorFactory editorFactory = EditorFactory.getInstance();
         PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
-        String fileName = template.getName();
+        String fileName = tigenTemplate.getName();
         FileType velocityFileType = FileTypeManager.getInstance().getFileTypeByExtension("vm");
         PsiFile psiFile = psiFileFactory.createFileFromText(fileName, velocityFileType, code, 0, true);
         // 标识为模板，让velocity跳过语法校验
@@ -178,7 +175,7 @@ public class GenerateDialog extends JDialog {
         ((EditorEx) editor).setHighlighter(EditorHighlighterFactory.getInstance().createEditorHighlighter(project, new LightVirtualFile(fileName)));
         // 构建dialog
         DialogBuilder dialogBuilder = new DialogBuilder(project);
-        dialogBuilder.setTitle("preview - " + template.getName());
+        dialogBuilder.setTitle("preview - " + tigenTemplate.getName());
         JComponent component = editor.getComponent();
         component.setPreferredSize(new Dimension(800, 600));
         dialogBuilder.setCenterPanel(component);

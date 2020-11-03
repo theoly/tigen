@@ -1,13 +1,9 @@
 package org.ukmms.tigen.service.impl;
 
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
-import kotlin.reflect.jvm.internal.impl.name.NameUtils;
-import org.apache.commons.lang.StringUtils;
-import org.beetl.core.GroupTemplate;
 import org.ukmms.tigen.domain.DataTable;
-import org.ukmms.tigen.domain.Template;
+import org.ukmms.tigen.domain.TigenTemplate;
 import org.ukmms.tigen.service.GenerateService;
 import org.ukmms.tigen.service.TigenService;
 import org.ukmms.tigen.util.DataUtils;
@@ -53,15 +49,15 @@ public class TigenServiceImpl implements TigenService {
     }
 
     @Override
-    public String generate(Template template, DataTable dataTable) {
-        GenerateService generateService = generateServiceMap.get(template.getEngine());
+    public String generate(TigenTemplate tigenTemplate, DataTable dataTable) {
+        GenerateService generateService = generateServiceMap.get(tigenTemplate.getEngine());
         Map<String, Object> param = new HashMap<>();
         // table info to param map
         param.put("dataTable", dataTable);
         param.put("package", "org.ukmms.tigen");
         String renderCode = null;
         try {
-            renderCode = generateService.generate(template.getCode(), param);
+            renderCode = generateService.generate(tigenTemplate.getCode(), param);
         } catch (Exception e) {
             e.printStackTrace();
         }

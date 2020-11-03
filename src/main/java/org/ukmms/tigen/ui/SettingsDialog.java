@@ -1,7 +1,6 @@
 package org.ukmms.tigen.ui;
 
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsContexts;
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +9,8 @@ import org.ukmms.tigen.config.Settings;
 import org.ukmms.tigen.util.ProjectUtils;
 
 import javax.swing.*;
-import java.io.IOException;
 
-public class SettingsDialog  implements Configurable, Configurable.Composite {
+public class SettingsDialog implements Configurable, Configurable.Composite {
     private JPanel contentPane;
     private JButton buttonReset;
     private JTextField tfAuthor;
@@ -29,13 +27,13 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
 
         tfAuthor.setText(settings.getAuthor());
 
-        settings.getProfileList().forEach(p -> {
-            cbProfile.addItem(p);
-        });
+        for (String profileName : settings.getProfileMap().keySet()) {
+            cbProfile.addItem(profileName);
+        }
 
         cbProfile.setSelectedItem(settings.getProfile());
 
-        buttonReset.addActionListener(e ->{
+        buttonReset.addActionListener(e -> {
             settings = new Settings();
         });
     }
@@ -62,25 +60,23 @@ public class SettingsDialog  implements Configurable, Configurable.Composite {
     public boolean isModified() {
         boolean modified = false;
         Object selectedItem = cbProfile.getSelectedItem();
-        if(!settings.getAuthor().equals(tfAuthor.getText())){
+        if (!settings.getAuthor().equals(tfAuthor.getText())) {
             modified = true;
         }
-        if(!settings.getProfile().equals(cbProfile.getSelectedItem().toString())) {
+        if (!settings.getProfile().getName().equals(selectedItem.toString())) {
             modified = true;
         }
         return modified;
     }
 
     @Override
-    public void apply() throws ConfigurationException {
+    public void apply() {
         settings.setAuthor(tfAuthor.getText());
-        if(!settings.getProfile().equals(cbProfile.getSelectedItem().toString())){
-            settings.setProfile(cbProfile.getSelectedItem().toString());
-            try {
-                settings.setTemplates(Settings.loadProfile(System.getProperty("user.home") + "/.tigen/profile/" + settings.getProfile()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String profileName = cbProfile.getSelectedItem().toString();
+        if (!settings.getProfile().getName().equals(profileName)) {
+            settings.setProfile(settings.getProfileByName(profileName));
         }
+
+        settings.saveProfiles();
     }
 }

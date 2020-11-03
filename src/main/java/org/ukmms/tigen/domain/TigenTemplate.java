@@ -4,15 +4,15 @@ package org.ukmms.tigen.domain;
  * @author theoly
  * @date 2020/10/28
  */
-public class Template {
+public class TigenTemplate {
     private String name;
     private String engine;
     private String code;
 
-    public Template() {
+    public TigenTemplate() {
     }
 
-    public Template(String name, String engine, String code) {
+    public TigenTemplate(String name, String engine, String code) {
         this.name = name;
         this.engine = engine;
         this.code = code;

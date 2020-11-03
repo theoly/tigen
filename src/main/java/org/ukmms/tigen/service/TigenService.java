@@ -3,7 +3,7 @@ package org.ukmms.tigen.service;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import org.ukmms.tigen.domain.DataTable;
-import org.ukmms.tigen.domain.Template;
+import org.ukmms.tigen.domain.TigenTemplate;
 
 /**
  * @author theoly
@@ -23,9 +23,9 @@ public interface TigenService {
     /**
      * 生成代码
      *
-     * @param template  模板
+     * @param tigenTemplate  模板
      * @param dataTable 表信息对象
      * @return 生成好的代码
      */
-    String generate(Template template, DataTable dataTable);
+    String generate(TigenTemplate tigenTemplate, DataTable dataTable);
 }
