@@ -32,7 +32,7 @@ public class profilePanel implements Configurable {
 
     private TemplateEditor templateEditor;
 
-    profilePanel(){
+    profilePanel() {
         this.project = ProjectUtils.getCurrProject();
         this.settings = Settings.getInstance();
         this.modified = false;
@@ -48,7 +48,7 @@ public class profilePanel implements Configurable {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         listBox = new TemplateListBox();
-        templateEditor = new TemplateEditor(project, new TigenTemplate());
+        templateEditor = new TemplateEditor(project);
 
         settings.getProfile().getTemplates().forEach(t -> {
             listBox.addItem(t.getFileName());
@@ -61,7 +61,9 @@ public class profilePanel implements Configurable {
 
         Splitter splitter = new Splitter(false, 0.2F);
         splitter.setFirstComponent(listBox.createComponent());
+
         splitter.setSecondComponent(templateEditor.createComponent());
+
 
         mainPanel.add(splitter, BorderLayout.CENTER);
 
@@ -78,21 +80,40 @@ public class profilePanel implements Configurable {
         String templateName = listBox.getListPanel().getSelectedValue();
         TigenTemplate template = new TigenTemplate();
         for (TigenTemplate tigenTemplate : settings.getProfile().getTemplates()) {
-            if(tigenTemplate.getName().equals(templateName)) {
+            if (tigenTemplate.getName().equals(templateName)) {
                 template = tigenTemplate;
             }
         }
-        templateEditor.getEditor().getDocument().setText(template.getCode());
+        templateEditor.setTemplate(template);
 
     }
 
     @Override
     public boolean isModified() {
+        if(templateEditor.getTemplate()!= null && !templateEditor.getTemplate().getCode().equals(templateEditor.getEditor().getDocument().getText())){
+            this.modified = true;
+        }
         return this.modified;
     }
 
     @Override
     public void apply() throws ConfigurationException {
+        TigenTemplate template = templateEditor.getTemplate();
+        template.setCode(templateEditor.getEditor().getDocument().getText());
+        settings.getProfile().getTemplates().forEach(t -> {
+            if(t.getName().equals(template.getName()) && t.getEngine().equals(template.getEngine())) {
+                t.setCode(templateEditor.getEditor().getDocument().getText());
+            }
+        });
+        settings.saveProfile(settings.getProfile());
 
+        this.modified = false;
+    }
+
+    @Override
+    public void disposeUIResources() {
+        if (templateEditor != null) {
+            templateEditor.onClose();
+        }
     }
 }
