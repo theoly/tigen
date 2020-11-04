@@ -147,15 +147,16 @@ public class Settings implements PersistentStateComponent<Settings> {
             for (File file : files) {
                 String extension = FileUtilRt.getExtension(file.getName());
                 String fn = file.getName();
+                String templateName = TigenTemplate.getTemplateName(fn, extension);
                 switch (extension) {
                     case "btl":
-                        templates.add(new TigenTemplate(fn.substring(0, fn.length() - 4), "beetl", FileUtil.loadFile(file)));
+                        templates.add(new TigenTemplate(templateName, "beetl", FileUtil.loadFile(file)));
                         break;
                     case "ftl":
-                        templates.add(new TigenTemplate(fn.substring(0, fn.length() - 4), "freemarker", FileUtil.loadFile(file)));
+                        templates.add(new TigenTemplate(templateName, "freemarker", FileUtil.loadFile(file)));
                         break;
                     case "vm":
-                        templates.add(new TigenTemplate(fn.substring(0, fn.length() - 3), "velocity", FileUtil.loadFile(file)));
+                        templates.add(new TigenTemplate(templateName, "velocity", FileUtil.loadFile(file)));
                         break;
                 }
             }

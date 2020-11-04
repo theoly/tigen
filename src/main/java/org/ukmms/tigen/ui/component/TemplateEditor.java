@@ -5,26 +5,28 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorSettings;
+import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.testFramework.LightVirtualFile;
-import com.intellij.util.LocalTimeCounter;
 import com.intellij.util.ui.JBUI;
+import jdk.nashorn.internal.objects.annotations.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.ukmms.tigen.domain.TigenTemplate;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author theoly
@@ -45,6 +47,8 @@ public class TemplateEditor {
      * idea editor
      */
     private Editor editor;
+
+    private Callback callback;
 
     public TemplateEditor(Project project, TigenTemplate template) {
         this.project = project;
@@ -71,6 +75,23 @@ public class TemplateEditor {
         // 创建编辑框
         editor = editorFactory.createEditor(document, project);
 
+        // 添加修改事件
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void beforeDocumentChange(DocumentEvent event) {
+
+            }
+
+            @Override
+            public void documentChanged(@NotNull DocumentEvent event) {
+                String text = editor.getDocument().getText();
+                // 回调事件
+                if (callback != null && !Objects.equals(text, template.getCode())) {
+                    callback.call();
+                }
+            }
+        });
+
         EditorSettings editorSettings = editor.getSettings();
         // 关闭虚拟空间
         editorSettings.setVirtualSpace(false);
@@ -94,12 +115,8 @@ public class TemplateEditor {
 
         // panel
         JPanel panel = new JPanel(new BorderLayout());
-//        Splitter splitter = new Splitter(true, 0.6F);
-//        splitter.setFirstComponent(editor.getComponent());
-//
-//        panel.add(splitter, BorderLayout.CENTER);
-        panel.add(editor.getComponent());
-        panel.setPreferredSize(JBUI.size(600, 480));
+        panel.add(editor.getComponent(), BorderLayout.CENTER);
+
         return panel;
     }
 
@@ -111,5 +128,39 @@ public class TemplateEditor {
             EditorFactory.getInstance().releaseEditor(editor);
         }
         editor = null;
+    }
+
+    /**
+     * 回调接口
+     */
+    public interface Callback {
+        /**
+         * 文档修改回调
+         */
+        void call();
+    }
+
+    public TigenTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(TigenTemplate template) {
+        this.template = template;
+    }
+
+    public Editor getEditor() {
+        return editor;
+    }
+
+    public void setEditor(Editor editor) {
+        this.editor = editor;
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 }

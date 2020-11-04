@@ -7,7 +7,10 @@ import com.intellij.ui.components.JBList;
 import org.ukmms.tigen.domain.TigenTemplate;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +18,7 @@ import java.util.List;
  * @author theoly
  * @date 2020/11/4
  */
-public class TemplateListBox {
+public class TemplateListBox{
     private Logger logger = Logger.getInstance(TemplateListBox.class);
 
     private List<TigenTemplate> templates;
@@ -56,9 +59,10 @@ public class TemplateListBox {
         });
 
         listPanel.setBorder(new CustomLineBorder(0, 1, 1, 1));
-        mainPanel.add(listPanel, BorderLayout.WEST);
+        mainPanel.add(listPanel, BorderLayout.CENTER);
         return mainPanel;
     }
+
 
 
 

@@ -46,7 +46,7 @@ public class TigenTemplate {
     }
 
     public static String getTemplateName(String fileName, String extension){
-        return fileName.substring(0, extension.length()+1);
+        return fileName.substring(0, fileName.length() - extension.length() -1);
     }
 
     public String getFileName(){

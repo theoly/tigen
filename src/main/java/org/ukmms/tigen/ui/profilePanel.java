@@ -5,8 +5,10 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.util.NlsContexts;
+import com.intellij.ui.components.JBList;
 import org.jetbrains.annotations.Nullable;
 import org.ukmms.tigen.config.Settings;
+import org.ukmms.tigen.domain.TigenProfile;
 import org.ukmms.tigen.domain.TigenTemplate;
 import org.ukmms.tigen.ui.component.TemplateEditor;
 import org.ukmms.tigen.ui.component.TemplateListBox;
@@ -46,14 +48,20 @@ public class profilePanel implements Configurable {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         listBox = new TemplateListBox();
+        templateEditor = new TemplateEditor(project, new TigenTemplate());
 
         settings.getProfile().getTemplates().forEach(t -> {
             listBox.addItem(t.getFileName());
         });
 
-        Splitter splitter = new Splitter(true, 0.3F);
+        listBox.getListPanel().addListSelectionListener(e -> {
+            onUpdate();
+        });
+
+
+        Splitter splitter = new Splitter(false, 0.2F);
         splitter.setFirstComponent(listBox.createComponent());
-        splitter.setSecondComponent(new TemplateEditor(project, new TigenTemplate()).createComponent());
+        splitter.setSecondComponent(templateEditor.createComponent());
 
         mainPanel.add(splitter, BorderLayout.CENTER);
 
@@ -61,6 +69,21 @@ public class profilePanel implements Configurable {
 //
 //        mainPanel.add(new TemplateEditor(project, new TigenTemplate()).createComponent());
         return mainPanel;
+    }
+
+    /**
+     * 数据发生修改时调用
+     */
+    private void onUpdate() {
+        String templateName = listBox.getListPanel().getSelectedValue();
+        TigenTemplate template = new TigenTemplate();
+        for (TigenTemplate tigenTemplate : settings.getProfile().getTemplates()) {
+            if(tigenTemplate.getName().equals(templateName)) {
+                template = tigenTemplate;
+            }
+        }
+        templateEditor.getEditor().getDocument().setText(template.getCode());
+
     }
 
     @Override
