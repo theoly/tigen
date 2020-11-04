@@ -12,7 +12,6 @@ public class TigenProfile {
     private String name;
     private String path;
 
-    @Transient
     private List<TigenTemplate> templates;
 
     public String getName() {
@@ -31,6 +30,7 @@ public class TigenProfile {
         this.path = path;
     }
 
+    @Transient
     public List<TigenTemplate> getTemplates() {
         return templates;
     }

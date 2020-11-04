@@ -1,4 +1,17 @@
-package;
-class {
+<%
+var author = "theoly";
+var date = date();
+var fl = strutil.subStringTo(dataTable.name, 0, 1);
+var pls = strutil.subString(dataTable.name,1);
+var Classname= strutil.toUpperCase(fl) + pls;
+%>
+package ${package};
+
+/**
+ *
+ * @author ${author}
+ * @date ${date,"yyyy-MM-dd"}
+ */
+class ${Classname}{
 
 }

@@ -47,7 +47,7 @@ public class SettingsDialog implements Configurable, Configurable.Composite {
     @Override
     public Configurable @NotNull [] getConfigurables() {
         Configurable[] result = new Configurable[1];
-        result[0] = new templatesPanel();
+        result[0] = new profilePanel();
         return result;
     }
 

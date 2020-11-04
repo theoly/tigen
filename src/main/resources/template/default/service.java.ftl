@@ -1,4 +1,4 @@
 package ${package};
 
-interface ${dataTable}{
+interface ${dataTable.name?cap_first}{
 }
