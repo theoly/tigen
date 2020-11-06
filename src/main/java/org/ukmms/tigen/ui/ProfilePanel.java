@@ -21,7 +21,7 @@ import java.awt.*;
  * @author theoly
  * @date 2020/10/28
  */
-public class profilePanel implements Configurable {
+public class ProfilePanel implements Configurable {
     private Project project;
 
     private Settings settings;
@@ -32,7 +32,7 @@ public class profilePanel implements Configurable {
 
     private TemplateEditor templateEditor;
 
-    profilePanel() {
+    ProfilePanel() {
         this.project = ProjectUtils.getCurrProject();
         this.settings = Settings.getInstance();
         this.modified = false;
