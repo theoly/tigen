@@ -1,8 +1,14 @@
 package org.ukmms.tigen.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.intellij.database.model.DasColumn;
 import com.intellij.database.psi.DbTable;
+import com.intellij.database.util.DasUtil;
+import com.intellij.util.containers.JBIterable;
+import org.ukmms.tigen.util.NameUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +42,29 @@ public class DataTable {
         this.dbTable = dbTable;
         this.name = dbTable.getName();
         this.comment = dbTable.getComment();
+
+        this.ext = new HashMap<>();
+
+        this.ext.put("className", NameUtils.getClassName(this.name));
+        this.ext.put("entityName", NameUtils.getEntityName(this.name));
+
+        JBIterable<? extends DasColumn> columns = DasUtil.getColumns(dbTable);
+        this.columns = new ArrayList<>();
+        for (DasColumn column : columns) {
+            this.columns.add(getColumnInfo(column));
+        }
+    }
+
+    private DataColumn getColumnInfo(DasColumn dasColumn){
+        DataColumn column = new DataColumn();
+        column.setDasColumn(dasColumn);
+        column.setName(dasColumn.getName());
+        column.setComment(dasColumn.getComment());
+        column.setType(dasColumn.getDataType().getSpecification());
+
+        column.getExt().put("propName", NameUtils.getEntityName(column.getName()));
+
+        return column;
     }
 
     /**
@@ -65,6 +94,22 @@ public class DataTable {
 
     public void setColumns(List<DataColumn> columns) {
         this.columns = columns;
+    }
+
+    public DbTable getDbTable() {
+        return dbTable;
+    }
+
+    public void setDbTable(DbTable dbTable) {
+        this.dbTable = dbTable;
+    }
+
+    public Map<String, Object> getExt() {
+        return ext;
+    }
+
+    public void setExt(Map<String, Object> ext) {
+        this.ext = ext;
     }
 
     @Override

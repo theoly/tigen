@@ -25,6 +25,9 @@
 
         <projectService serviceInterface="org.ukmms.tigen.service.TigenService"
                         serviceImplementation="org.ukmms.tigen.service.impl.TigenServiceImpl" />
+
+        <projectService serviceInterface="org.ukmms.tigen.service.DatabaseService"
+                        serviceImplementation="org.ukmms.tigen.service.impl.DatabaseServiceImpl" />
     </extensions>
 
     <actions>

@@ -2,16 +2,13 @@ package org.ukmms.tigen.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.NlsActions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.diagnostic.Logger;
-import org.ukmms.tigen.config.Settings;
 import org.ukmms.tigen.ui.GenerateDialog;
 import org.ukmms.tigen.util.DataUtils;
-
-import java.io.IOException;
 
 /**
  * @author theoly

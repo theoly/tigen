@@ -24,7 +24,7 @@ public class BeetlGenerateServiceImpl implements GenerateService {
         Configuration cfg = Configuration.defaultConfiguration();
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
         //获取模板
-        Template t = gt.getTemplate(template);
+        Template t = gt.getTemplate((Object)template);
         t.binding(param);
         //渲染结果
         String str = t.render();
