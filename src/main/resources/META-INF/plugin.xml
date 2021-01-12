@@ -35,5 +35,10 @@
             <!--生成代码菜单-->
             <add-to-group group-id="DatabaseViewPopupMenu" anchor="first"/>
         </group>
+
+        <action id="org.ukmms.tigen.ddlAction" class="org.ukmms.tigen.actions.GenerateDdlMenuAction"
+                text="CreateDDL" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
