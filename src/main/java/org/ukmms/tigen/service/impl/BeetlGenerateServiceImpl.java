@@ -17,6 +17,7 @@ public class BeetlGenerateServiceImpl implements GenerateService {
     @Override
     public String generate(String template, Map<String, Object> param) throws IOException {
 
+        // loader
         Thread.currentThread().setContextClassLoader(GroupTemplate.class.getClassLoader());
 
         //初始化代码
@@ -24,7 +25,7 @@ public class BeetlGenerateServiceImpl implements GenerateService {
         Configuration cfg = Configuration.defaultConfiguration();
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
         //获取模板
-        Template t = gt.getTemplate((Object)template);
+        Template t = gt.getTemplate(template);
         t.binding(param);
         //渲染结果
         String str = t.render();
